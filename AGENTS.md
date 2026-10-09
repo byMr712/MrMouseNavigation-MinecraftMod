@@ -34,7 +34,7 @@
    - В чате (`ChatScreen`): мгновенная отправка сообщения (эквивалент клавиши `Enter`).
 4. **Конфигурация:**
    - Интеграция с ModMenu и экран настроек (`MouseNavigationConfigScreen`).
-   - Конфигурационный файл: `config/mousenavigation.json`.
+   - Конфигурационный файл: `config/mrmousenavigation.json`.
 
 ## Команды сборки
 - Полная сборка JAR: `./gradlew build`
