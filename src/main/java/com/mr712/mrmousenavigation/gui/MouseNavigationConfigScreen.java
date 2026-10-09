@@ -1,6 +1,6 @@
-package com.mr712.mousenavigation.gui;
+package com.mr712.mrmousenavigation.gui;
 
-import com.mr712.mousenavigation.config.MouseNavigationConfig;
+import com.mr712.mrmousenavigation.config.MouseNavigationConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -14,7 +14,7 @@ public class MouseNavigationConfigScreen extends Screen {
     private final MouseNavigationConfig tempConfig;
 
     public MouseNavigationConfigScreen(Screen parent) {
-        super(Component.translatable("mousenavigation.config.title"));
+        super(Component.translatable("mrmousenavigation.config.title"));
         this.parent = parent;
         this.tempConfig = MouseNavigationConfig.getInstance().copy();
     }
@@ -34,7 +34,7 @@ public class MouseNavigationConfigScreen extends Screen {
         // Row 0: Master Enable (Full Width)
         addRenderableWidget(createToggleOption(
                 col1X, startY, totalWidth, btnHeight,
-                "mousenavigation.config.enabled",
+                "mrmousenavigation.config.enabled",
                 tempConfig.enabled,
                 () -> tempConfig.enabled = !tempConfig.enabled,
                 null
@@ -43,91 +43,91 @@ public class MouseNavigationConfigScreen extends Screen {
         // Row 1: Screen Back (Col 1) & Screen Forward (Col 2)
         addRenderableWidget(createToggleOption(
                 col1X, startY + rowHeight, halfWidth, btnHeight,
-                "mousenavigation.config.screen_back",
+                "mrmousenavigation.config.screen_back",
                 tempConfig.enableScreenBack,
                 () -> tempConfig.enableScreenBack = !tempConfig.enableScreenBack,
-                "mousenavigation.config.screen_back.tooltip"
+                "mrmousenavigation.config.screen_back.tooltip"
         ));
         addRenderableWidget(createToggleOption(
                 col2X, startY + rowHeight, halfWidth, btnHeight,
-                "mousenavigation.config.screen_forward",
+                "mrmousenavigation.config.screen_forward",
                 tempConfig.enableScreenForward,
                 () -> tempConfig.enableScreenForward = !tempConfig.enableScreenForward,
-                "mousenavigation.config.screen_forward.tooltip"
+                "mrmousenavigation.config.screen_forward.tooltip"
         ));
 
         // Row 2: Books (Col 1) & Recipe Book (Col 2)
         addRenderableWidget(createToggleOption(
                 col1X, startY + rowHeight * 2, halfWidth, btnHeight,
-                "mousenavigation.config.books",
+                "mrmousenavigation.config.books",
                 tempConfig.enableBooks,
                 () -> tempConfig.enableBooks = !tempConfig.enableBooks,
-                "mousenavigation.config.books.tooltip"
+                "mrmousenavigation.config.books.tooltip"
         ));
         addRenderableWidget(createToggleOption(
                 col2X, startY + rowHeight * 2, halfWidth, btnHeight,
-                "mousenavigation.config.recipe_book",
+                "mrmousenavigation.config.recipe_book",
                 tempConfig.enableRecipeBook,
                 () -> tempConfig.enableRecipeBook = !tempConfig.enableRecipeBook,
-                "mousenavigation.config.recipe_book.tooltip"
+                "mrmousenavigation.config.recipe_book.tooltip"
         ));
 
         // Row 3: Creative Tabs (Col 1) & Advancements (Col 2)
         addRenderableWidget(createToggleOption(
                 col1X, startY + rowHeight * 3, halfWidth, btnHeight,
-                "mousenavigation.config.creative_tabs",
+                "mrmousenavigation.config.creative_tabs",
                 tempConfig.enableCreativeTabs,
                 () -> tempConfig.enableCreativeTabs = !tempConfig.enableCreativeTabs,
-                "mousenavigation.config.creative_tabs.tooltip"
+                "mrmousenavigation.config.creative_tabs.tooltip"
         ));
         addRenderableWidget(createToggleOption(
                 col2X, startY + rowHeight * 3, halfWidth, btnHeight,
-                "mousenavigation.config.advancements",
+                "mrmousenavigation.config.advancements",
                 tempConfig.enableAdvancements,
                 () -> tempConfig.enableAdvancements = !tempConfig.enableAdvancements,
-                "mousenavigation.config.advancements.tooltip"
+                "mrmousenavigation.config.advancements.tooltip"
         ));
 
         // Row 4: Chat History (Col 1) & Chat Send on Middle Click (Col 2)
         addRenderableWidget(createToggleOption(
                 col1X, startY + rowHeight * 4, halfWidth, btnHeight,
-                "mousenavigation.config.chat_history",
+                "mrmousenavigation.config.chat_history",
                 tempConfig.enableChatHistory,
                 () -> tempConfig.enableChatHistory = !tempConfig.enableChatHistory,
-                "mousenavigation.config.chat_history.tooltip"
+                "mrmousenavigation.config.chat_history.tooltip"
         ));
         addRenderableWidget(createToggleOption(
                 col2X, startY + rowHeight * 4, halfWidth, btnHeight,
-                "mousenavigation.config.chat_middle_click",
+                "mrmousenavigation.config.chat_middle_click",
                 tempConfig.enableChatMiddleClickSend,
                 () -> tempConfig.enableChatMiddleClickSend = !tempConfig.enableChatMiddleClickSend,
-                "mousenavigation.config.chat_middle_click.tooltip"
+                "mrmousenavigation.config.chat_middle_click.tooltip"
         ));
 
         // Row 5: Click Sound (Col 1) & Invert Buttons (Col 2)
         addRenderableWidget(createToggleOption(
                 col1X, startY + rowHeight * 5, halfWidth, btnHeight,
-                "mousenavigation.config.sound",
+                "mrmousenavigation.config.sound",
                 tempConfig.enableSound,
                 () -> tempConfig.enableSound = !tempConfig.enableSound,
-                "mousenavigation.config.sound.tooltip"
+                "mrmousenavigation.config.sound.tooltip"
         ));
         addRenderableWidget(createToggleOption(
                 col2X, startY + rowHeight * 5, halfWidth, btnHeight,
-                "mousenavigation.config.invert",
+                "mrmousenavigation.config.invert",
                 tempConfig.invertButtons,
                 () -> tempConfig.invertButtons = !tempConfig.invertButtons,
-                "mousenavigation.config.invert.tooltip"
+                "mrmousenavigation.config.invert.tooltip"
         ));
 
         // Bottom Controls
         int bottomY = this.height - 28;
-        addRenderableWidget(Button.builder(Component.translatable("mousenavigation.config.reset"), btn -> {
+        addRenderableWidget(Button.builder(Component.translatable("mrmousenavigation.config.reset"), btn -> {
             tempConfig.resetToDefaults();
             rebuildWidgets();
         }).bounds(centerX - 155, bottomY, 100, 20).build());
 
-        addRenderableWidget(Button.builder(Component.translatable("mousenavigation.config.save"), btn -> {
+        addRenderableWidget(Button.builder(Component.translatable("mrmousenavigation.config.save"), btn -> {
             MouseNavigationConfig current = MouseNavigationConfig.getInstance();
             current.enabled = tempConfig.enabled;
             current.enableScreenBack = tempConfig.enableScreenBack;
@@ -144,16 +144,16 @@ public class MouseNavigationConfigScreen extends Screen {
             this.onClose();
         }).bounds(centerX - 50, bottomY, 100, 20).build());
 
-        addRenderableWidget(Button.builder(Component.translatable("mousenavigation.config.cancel"), btn -> this.onClose())
+        addRenderableWidget(Button.builder(Component.translatable("mrmousenavigation.config.cancel"), btn -> this.onClose())
                 .bounds(centerX + 55, bottomY, 100, 20).build());
     }
 
     private Button createToggleOption(int x, int y, int width, int height, String key, boolean state, Runnable onToggle, String tooltipKey) {
         MutableComponent label = Component.translatable(key).append(": ");
         if (state) {
-            label.append(Component.translatable("mousenavigation.config.state.on").withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
+            label.append(Component.translatable("mrmousenavigation.config.state.on").withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
         } else {
-            label.append(Component.translatable("mousenavigation.config.state.off").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
+            label.append(Component.translatable("mrmousenavigation.config.state.off").withStyle(ChatFormatting.RED, ChatFormatting.BOLD));
         }
 
         Button.Builder builder = Button.builder(label, btn -> {

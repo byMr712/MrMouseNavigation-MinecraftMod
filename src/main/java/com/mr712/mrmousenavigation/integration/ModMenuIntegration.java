@@ -1,6 +1,6 @@
-package com.mr712.mousenavigation.integration;
+package com.mr712.mrmousenavigation.integration;
 
-import com.mr712.mousenavigation.gui.MouseNavigationConfigScreen;
+import com.mr712.mrmousenavigation.gui.MouseNavigationConfigScreen;
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 

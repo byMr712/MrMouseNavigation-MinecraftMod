@@ -11,11 +11,11 @@
 ## Особенности реализации в данной версии
 Начиная с Minecraft 26.2/26.3 произошла дальнейшая оптимизация GUI подсистемы Mojang и Java 25:
 - **Специфика Fabric Loom:** `loom { noIntermediateMappings() }` с локальным `empty-mappings.jar`.
-- **Совместимость Mixin:** В `mousenavigation.mixins.json` задан уровень `"compatibilityLevel": "JAVA_25"`.
+- **Совместимость Mixin:** В `mrmousenavigation.mixins.json` задан уровень `"compatibilityLevel": "JAVA_25"`.
 - **Целевой класс инжекции мыши:** `net.minecraft.client.MouseHandler` -> метод `onButton(long window, MouseButtonInfo info, int action)`.
 - **Экраны и контекст:** Текущий активный экран получается через подсистему GUI `client.gui.screen()`, переход выполняется через `client.setScreenAndShow(Screen)`, закрытие через `currentScreen.onClose()`.
 - **Ввод клавиш:** `net.minecraft.client.input.KeyEvent` и `com.mojang.blaze3d.platform.InputConstants`.
-- **Книга рецептов:** `AbstractRecipeBookScreen<?>` и `RecipeBookComponent<?>` с аксессором `mousenavigation$getRecipeBook()`.
+- **Книга рецептов:** `AbstractRecipeBookScreen<?>` и `RecipeBookComponent<?>` с аксессором `mrmousenavigation$getRecipeBook()`.
 - **Графический рендеринг экрана настроек:** `extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta)`.
 - **Звук клика:** `SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F)`.
 
@@ -38,7 +38,7 @@
    - В чате (`ChatScreen`): мгновенная отправка сообщения (эквивалент клавиши `Enter`).
 4. **Конфигурация:**
    - Интеграция с ModMenu и экран настроек (`MouseNavigationConfigScreen`).
-   - Конфигурационный файл: `config/mousenavigation.json`.
+   - Конфигурационный файл: `config/mrmousenavigation.json`.
 
 ## Команды сборки
 - Полная сборка JAR: `./gradlew build`
