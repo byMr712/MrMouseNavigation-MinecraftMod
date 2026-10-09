@@ -4,8 +4,7 @@
   "package": "com.mr712.mousenavigation.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
-    "MouseMixin",
-    "RecipeBookScreenAccessor"
+    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1

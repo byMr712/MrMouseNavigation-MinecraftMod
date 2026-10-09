@@ -1,7 +1,6 @@
 package com.mr712.mousenavigation.handler;
 
 import com.mr712.mousenavigation.config.MouseNavigationConfig;
-import com.mr712.mousenavigation.mixin.RecipeBookScreenAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -10,7 +9,7 @@ import net.minecraft.client.gui.screen.ingame.BookEditScreen;
 import net.minecraft.client.gui.screen.ingame.BookScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.LecternScreen;
-import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
@@ -95,7 +94,7 @@ public class MouseNavigationHandler {
         // 3. Creative Inventory Tabs
         if (currentScreen instanceof CreativeInventoryScreen) {
             if (config.enableCreativeTabs) {
-                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_PAGE_DOWN;
+                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
                 if (currentScreen.keyPressed(key, 0, 0)) {
                     playClickSound(client, config);
                     return true;
@@ -112,7 +111,7 @@ public class MouseNavigationHandler {
         // 4. Advancements Screen
         if (currentScreen instanceof AdvancementsScreen) {
             if (config.enableAdvancements) {
-                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_PAGE_DOWN;
+                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
                 if (currentScreen.keyPressed(key, 0, 0) || currentScreen.keyPressed(isBack ? GLFW.GLFW_KEY_LEFT : GLFW.GLFW_KEY_RIGHT, 0, 0)) {
                     playClickSound(client, config);
                     return true;
@@ -127,8 +126,8 @@ public class MouseNavigationHandler {
         }
 
         // 5. Recipe Book Screens (Crafting, Inventory, etc.)
-        if (config.enableRecipeBook && currentScreen instanceof RecipeBookScreen<?> recipeBookScreen) {
-            RecipeBookWidget<?> recipeBookWidget = ((RecipeBookScreenAccessor) recipeBookScreen).mousenavigation$getRecipeBook();
+        if (config.enableRecipeBook && currentScreen instanceof RecipeBookProvider recipeBookProvider) {
+            RecipeBookWidget recipeBookWidget = recipeBookProvider.getRecipeBookWidget();
             if (recipeBookWidget != null && recipeBookWidget.isOpen()) {
                 int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
                 if (recipeBookWidget.keyPressed(key, 0, 0)) {
@@ -179,7 +178,7 @@ public class MouseNavigationHandler {
 
     private static void playClickSound(MinecraftClient client, MouseNavigationConfig config) {
         if (config.enableSound && client.getSoundManager() != null) {
-            client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F));
         }
     }
 
