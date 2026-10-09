@@ -8,7 +8,7 @@
 ![ModMenu](https://img.shields.io/badge/ModMenu-Supported-blue.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 
-**[MR] Mouse Navigation** (`MrMouseNavigation`) — легковесный и удобный клиентский мод для **Minecraft 1.21.10 (Fabric)**, добавляющий интуитивную навигацию боковыми кнопками мыши в интерфейсах игры. С ним нижняя боковая кнопка мыши (Mouse 4) работает как «Назад», верхняя боковая кнопка (Mouse 5) — как «Вперёд», а средняя кнопка мыши (колёсико / СКМ) позволяет отправлять сообщения в чате, не затрагивая при этом управление в самой игре.
+**[MR] Mouse Navigation** - клиентский мод для **Minecraft 1.21.10 (Fabric)**, добавляющий навигацию боковыми кнопками мыши в интерфейсах игры. С ним нижняя боковая кнопка мыши (Mouse 4) работает как «Назад», верхняя боковая кнопка (Mouse 5) — как «Вперёд», а средняя кнопка мыши (колёсико / СКМ) позволяет отправлять сообщения в чате, при этом настроенная мышь в игре не меняется!
 
 ---
 
@@ -77,7 +77,7 @@
 - **Звуковой отклик**: воспроизведение тихого клика при навигации.
 - **Инвертировать кнопки**: поменять местами Mouse 4 и Mouse 5.
 
-Конфигурация сохраняется в файл `.minecraft/config/mousenavigation.json`.
+Конфигурация сохраняется в файл `.minecraft/config/mrmousenavigation.json`.
 
 ---
 
@@ -91,8 +91,8 @@
 
 ## Установка
 
-1. Скачайте `MrMouseNavigation-Fabric-1.21.10-byMr712-v1.0.jar` со страницы [GitHub Releases](https://github.com/byMr712/MouseNavigation-MinecraftMod/releases).
-2. Убедитесь, что установлены **Fabric Loader** и **Fabric API** для Minecraft 1.21.10.
+1. Скачайте `MrMouseNavigation-Fabric-1.21.10-byMr712-v1.0.jar` со страницы на [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mr-mouse-navigation) или [GitHub Releases](https://github.com/byMr712/MrMouseNavigation-MinecraftMod/releases).
+2. Убедитесь, что у вас версия **Fabric** и установлен мод **Fabric API**.
 3. Поместите скачанный `.jar` файл в папку `.minecraft/mods`.
 4. Запустите игру.
 
@@ -102,8 +102,8 @@
 
 1. Клонируйте репозиторий и переключитесь на нужную ветку:
    ```bash
-   git clone https://github.com/byMr712/MouseNavigation-MinecraftMod.git
-   cd MouseNavigation-MinecraftMod
+   git clone https://github.com/byMr712/MrMouseNavigation-MinecraftMod.git
+   cd MrMouseNavigation-MinecraftMod
    git checkout 1.21.10
    ```
 2. Выполните сборку:
