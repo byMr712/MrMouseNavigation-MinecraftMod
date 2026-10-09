@@ -2,13 +2,14 @@
   "schemaVersion": 1,
   "id": "mousenavigation",
   "version": "${version}",
-  "name": "MouseNavigation",
+  "name": "[MR] Mouse Navigation",
   "description": "Enables mouse side buttons (Mouse 4 and Mouse 5) for intuitive back and forward navigation in screens, books, tabs, recipe books, and chat.",
   "authors": [
     "byMr712"
   ],
   "contact": {
-    "sources": "https://github.com/Unknowneth"
+    "homepage": "https://github.com/byMr712/MouseNavigation-MinecraftMod",
+    "sources": "https://github.com/byMr712/MouseNavigation-MinecraftMod"
   },
   "license": "Apache-2.0",
   "icon": "assets/mousenavigation/icon.png",
@@ -25,12 +26,12 @@
     "mousenavigation.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.0",
-    "minecraft": "~1.21.4",
-    "java": ">=21",
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
     "fabric-api": "*"
   },
   "suggests": {
-    "modmenu": ">=13.0.0"
+    "modmenu": "*"
   }
 }
