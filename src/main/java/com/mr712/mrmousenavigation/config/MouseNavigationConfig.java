@@ -1,4 +1,4 @@
-package com.mr712.mousenavigation.config;
+package com.mr712.mrmousenavigation.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,9 +11,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 
 public class MouseNavigationConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger("MouseNavigation");
+    private static final Logger LOGGER = LoggerFactory.getLogger("MrMouseNavigation");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "mousenavigation.json");
+    private static final File CONFIG_FILE = new File(FabricLoader.getInstance().getConfigDir().toFile(), "mrmousenavigation.json");
 
     private static MouseNavigationConfig INSTANCE;
 
@@ -44,7 +44,7 @@ public class MouseNavigationConfig {
                     return config;
                 }
             } catch (Exception e) {
-                LOGGER.error("Failed to load MouseNavigation config, falling back to defaults", e);
+                LOGGER.error("Failed to load MrMouseNavigation config, falling back to defaults", e);
             }
         }
         MouseNavigationConfig config = new MouseNavigationConfig();
@@ -62,7 +62,7 @@ public class MouseNavigationConfig {
                 GSON.toJson(this, writer);
             }
         } catch (Exception e) {
-            LOGGER.error("Failed to save MouseNavigation config", e);
+            LOGGER.error("Failed to save MrMouseNavigation config", e);
         }
     }
 
