@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
 import net.minecraft.client.gui.screen.ingame.LecternScreen;
 import net.minecraft.client.gui.screen.ingame.RecipeBookScreen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.client.input.KeyInput;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.sound.SoundEvents;
 import org.lwjgl.glfw.GLFW;
@@ -22,6 +23,14 @@ import java.util.Deque;
 public class MouseNavigationHandler {
     private static final Deque<Screen> FORWARD_STACK = new ArrayDeque<>();
     private static Screen lastClosedScreen = null;
+
+    private static boolean pressKey(Screen screen, int key) {
+        return screen.keyPressed(new KeyInput(key, 0, 0));
+    }
+
+    private static boolean pressKey(RecipeBookWidget<?> widget, int key) {
+        return widget.keyPressed(new KeyInput(key, 0, 0));
+    }
 
     public static boolean handleMouseButton(long window, int button, int action, int mods) {
         if (action != GLFW.GLFW_PRESS) {
@@ -43,7 +52,7 @@ public class MouseNavigationHandler {
 
         // Middle mouse button in ChatScreen sends the message
         if (button == GLFW.GLFW_MOUSE_BUTTON_MIDDLE && currentScreen instanceof ChatScreen && config.enableChatMiddleClickSend) {
-            if (currentScreen.keyPressed(GLFW.GLFW_KEY_ENTER, 0, 0)) {
+            if (pressKey(currentScreen, GLFW.GLFW_KEY_ENTER)) {
                 playClickSound(client, config);
                 return true;
             }
@@ -62,7 +71,7 @@ public class MouseNavigationHandler {
         if (currentScreen instanceof ChatScreen) {
             if (config.enableChatHistory) {
                 int key = isBack ? GLFW.GLFW_KEY_UP : GLFW.GLFW_KEY_DOWN;
-                if (currentScreen.keyPressed(key, 0, 0)) {
+                if (pressKey(currentScreen, key)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -79,7 +88,7 @@ public class MouseNavigationHandler {
         if (currentScreen instanceof BookScreen || currentScreen instanceof LecternScreen || currentScreen instanceof BookEditScreen) {
             if (config.enableBooks) {
                 int key = isBack ? GLFW.GLFW_KEY_LEFT : GLFW.GLFW_KEY_RIGHT;
-                if (currentScreen.keyPressed(key, 0, 0) || currentScreen.keyPressed(isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_PAGE_DOWN, 0, 0)) {
+                if (pressKey(currentScreen, key) || pressKey(currentScreen, isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_PAGE_DOWN)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -95,8 +104,8 @@ public class MouseNavigationHandler {
         // 3. Creative Inventory Tabs
         if (currentScreen instanceof CreativeInventoryScreen) {
             if (config.enableCreativeTabs) {
-                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_PAGE_DOWN;
-                if (currentScreen.keyPressed(key, 0, 0)) {
+                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
+                if (pressKey(currentScreen, key)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -112,8 +121,8 @@ public class MouseNavigationHandler {
         // 4. Advancements Screen
         if (currentScreen instanceof AdvancementsScreen) {
             if (config.enableAdvancements) {
-                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_PAGE_DOWN;
-                if (currentScreen.keyPressed(key, 0, 0) || currentScreen.keyPressed(isBack ? GLFW.GLFW_KEY_LEFT : GLFW.GLFW_KEY_RIGHT, 0, 0)) {
+                int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
+                if (pressKey(currentScreen, key) || pressKey(currentScreen, isBack ? GLFW.GLFW_KEY_LEFT : GLFW.GLFW_KEY_RIGHT)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -131,7 +140,7 @@ public class MouseNavigationHandler {
             RecipeBookWidget<?> recipeBookWidget = ((RecipeBookScreenAccessor) recipeBookScreen).mousenavigation$getRecipeBook();
             if (recipeBookWidget != null && recipeBookWidget.isOpen()) {
                 int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
-                if (recipeBookWidget.keyPressed(key, 0, 0)) {
+                if (pressKey(recipeBookWidget, key)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -162,7 +171,7 @@ public class MouseNavigationHandler {
 
     private static void triggerBack(Screen currentScreen) {
         recordClosedScreen(currentScreen);
-        if (!currentScreen.keyPressed(GLFW.GLFW_KEY_ESCAPE, 0, 0)) {
+        if (!pressKey(currentScreen, GLFW.GLFW_KEY_ESCAPE)) {
             currentScreen.close();
         }
     }
@@ -179,7 +188,7 @@ public class MouseNavigationHandler {
 
     private static void playClickSound(MinecraftClient client, MouseNavigationConfig config) {
         if (config.enableSound && client.getSoundManager() != null) {
-            client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+            client.getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK.value(), 1.0F));
         }
     }
 
