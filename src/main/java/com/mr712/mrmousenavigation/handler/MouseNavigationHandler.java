@@ -1,7 +1,7 @@
-package com.mr712.mousenavigation.handler;
+package com.mr712.mrmousenavigation.handler;
 
-import com.mr712.mousenavigation.config.MouseNavigationConfig;
-import com.mr712.mousenavigation.mixin.RecipeBookScreenAccessor;
+import com.mr712.mrmousenavigation.config.MouseNavigationConfig;
+import com.mr712.mrmousenavigation.mixin.RecipeBookScreenAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -128,7 +128,7 @@ public class MouseNavigationHandler {
 
         // 5. Recipe Book Screens (Crafting, Inventory, etc.)
         if (config.enableRecipeBook && currentScreen instanceof RecipeBookScreen<?> recipeBookScreen) {
-            RecipeBookWidget<?> recipeBookWidget = ((RecipeBookScreenAccessor) recipeBookScreen).mousenavigation$getRecipeBook();
+            RecipeBookWidget<?> recipeBookWidget = ((RecipeBookScreenAccessor) recipeBookScreen).mrmousenavigation$getRecipeBook();
             if (recipeBookWidget != null && recipeBookWidget.isOpen()) {
                 int key = isBack ? GLFW.GLFW_KEY_PAGE_UP : GLFW.GLFW_KEY_DOWN;
                 if (recipeBookWidget.keyPressed(key, 0, 0)) {
