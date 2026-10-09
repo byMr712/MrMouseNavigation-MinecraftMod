@@ -1,4 +1,4 @@
-package com.mr712.mousenavigation.mixin;
+package com.mr712.mrmousenavigation.mixin;
 
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
@@ -8,5 +8,5 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(AbstractRecipeBookScreen.class)
 public interface RecipeBookScreenAccessor {
     @Accessor("recipeBookComponent")
-    RecipeBookComponent<?> mousenavigation$getRecipeBook();
+    RecipeBookComponent<?> mrmousenavigation$getRecipeBook();
 }

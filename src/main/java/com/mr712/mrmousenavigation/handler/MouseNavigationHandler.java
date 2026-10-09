@@ -1,8 +1,8 @@
-package com.mr712.mousenavigation.handler;
+package com.mr712.mrmousenavigation.handler;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mr712.mousenavigation.config.MouseNavigationConfig;
-import com.mr712.mousenavigation.mixin.RecipeBookScreenAccessor;
+import com.mr712.mrmousenavigation.config.MouseNavigationConfig;
+import com.mr712.mrmousenavigation.mixin.RecipeBookScreenAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -137,7 +137,7 @@ public class MouseNavigationHandler {
 
         // 5. Recipe Book Screens (Crafting, Inventory, etc.)
         if (config.enableRecipeBook && currentScreen instanceof AbstractRecipeBookScreen<?> recipeBookScreen) {
-            RecipeBookComponent<?> recipeBook = ((RecipeBookScreenAccessor) recipeBookScreen).mousenavigation$getRecipeBook();
+            RecipeBookComponent<?> recipeBook = ((RecipeBookScreenAccessor) recipeBookScreen).mrmousenavigation$getRecipeBook();
             if (recipeBook != null && recipeBook.isVisible()) {
                 int key = isBack ? InputConstants.KEY_PAGEUP : InputConstants.KEY_PAGEDOWN;
                 if (pressKey(recipeBook, key)) {
