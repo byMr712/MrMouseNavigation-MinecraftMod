@@ -1,6 +1,6 @@
-package com.mr712.mousenavigation.handler;
+package com.mr712.mrmousenavigation.handler;
 
-import com.mr712.mousenavigation.config.MouseNavigationConfig;
+import com.mr712.mrmousenavigation.config.MouseNavigationConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
