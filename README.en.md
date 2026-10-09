@@ -8,7 +8,7 @@
 ![ModMenu](https://img.shields.io/badge/ModMenu-Supported-blue.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 
-**[MR] Mouse Navigation** (`MrMouseNavigation`) is a lightweight client-side Fabric mod for **Minecraft 1.21.6**, enabling intuitive navigation using mouse side buttons across in-game interfaces. With it, the lower side mouse button (Mouse 4) acts as "Back", the upper side button (Mouse 5) acts as "Forward", and the middle mouse button (scroll wheel click) instantly sends chat messages, all without interfering with normal gameplay controls.
+**[MR] Mouse Navigation** is a client-side Fabric mod for **Minecraft 1.21.6**, enabling navigation using mouse side buttons in game interfaces. With it, the lower side mouse button (Mouse 4) acts as "Back", the upper side button (Mouse 5) acts as "Forward", and the middle mouse button (scroll wheel click) allows sending chat messages, while your configured mouse controls in the game remain unchanged!
 
 ---
 
@@ -77,7 +77,7 @@ When **ModMenu** is installed, you can configure the following options:
 - **Click Sound**: Play a soft click sound on navigation.
 - **Invert Buttons**: Swap Mouse 4 and Mouse 5.
 
-Configuration is saved in `.minecraft/config/mousenavigation.json`.
+Configuration is saved in `.minecraft/config/mrmousenavigation.json`.
 
 ---
 
@@ -91,8 +91,8 @@ The mod is ported and maintained across all versions in separate git branches:
 
 ## Installation
 
-1. Download `MrMouseNavigation-Fabric-1.21.6-byMr712-v1.0.jar` from [GitHub Releases](https://github.com/byMr712/MouseNavigation-MinecraftMod/releases).
-2. Ensure you have **Fabric Loader** and **Fabric API** installed for Minecraft 1.21.6.
+1. Download `MrMouseNavigation-Fabric-1.21.6-byMr712-v1.0.jar` from [CurseForge](https://www.curseforge.com/minecraft/mc-mods/mr-mouse-navigation) or [GitHub Releases](https://github.com/byMr712/MrMouseNavigation-MinecraftMod/releases).
+2. Ensure you are running **Fabric** and have **Fabric API** installed.
 3. Place the downloaded `.jar` into your `.minecraft/mods` folder.
 4. Launch the game!
 
@@ -102,8 +102,8 @@ The mod is ported and maintained across all versions in separate git branches:
 
 1. Clone the repository and switch to the desired version branch:
    ```bash
-   git clone https://github.com/byMr712/MouseNavigation-MinecraftMod.git
-   cd MouseNavigation-MinecraftMod
+   git clone https://github.com/byMr712/MrMouseNavigation-MinecraftMod.git
+   cd MrMouseNavigation-MinecraftMod
    git checkout 1.21.6
    ```
 2. Build the project:
