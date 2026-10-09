@@ -11,11 +11,11 @@
 ## Особенности реализации в данной версии
 Начиная с Minecraft 26.x произошёл переход на официальные маппинги Mojang и Java 25:
 - **Специфика Fabric Loom:** Включено `loom { noIntermediateMappings() }` и локальный `empty-mappings.jar`.
-- **Совместимость Mixin:** В `mousenavigation.mixins.json` задан уровень `"compatibilityLevel": "JAVA_25"`.
+- **Совместимость Mixin:** В `mrmousenavigation.mixins.json` задан уровень `"compatibilityLevel": "JAVA_25"`.
 - **Целевой класс инжекции мыши:** `net.minecraft.client.MouseHandler` -> метод `onButton(long window, MouseButtonInfo info, int action)`. Кнопка и модификаторы берутся из `info.button()` и `info.modifiers()`.
 - **Экраны и контекст:** `net.minecraft.client.Minecraft.getInstance()`, текущий экран `client.screen`, закрытие экрана `currentScreen.onClose()`, переход `client.setScreenAndShow(Screen)`.
 - **Ввод клавиш:** `net.minecraft.client.input.KeyEvent` и `com.mojang.blaze3d.platform.InputConstants`.
-- **Книга рецептов:** `AbstractRecipeBookScreen<?>` и `RecipeBookComponent<?>` с аксессором `mousenavigation$getRecipeBook()`, проверка видимости через `recipeBook.isVisible()`.
+- **Книга рецептов:** `AbstractRecipeBookScreen<?>` и `RecipeBookComponent<?>` с аксессором `mrmousenavigation$getRecipeBook()`, проверка видимости через `recipeBook.isVisible()`.
 - **Графический рендеринг экрана настроек:** `extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta)` и `graphics.centeredText(...)`.
 - **Звук клика:** `SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F)`.
 
@@ -38,7 +38,7 @@
    - В чате (`ChatScreen`): мгновенная отправка сообщения (эквивалент клавиши `Enter`).
 4. **Конфигурация:**
    - Интеграция с ModMenu и экран настроек (`MouseNavigationConfigScreen`).
-   - Конфигурационный файл: `config/mousenavigation.json`.
+   - Конфигурационный файл: `config/mrmousenavigation.json`.
 
 ## Команды сборки
 - Полная сборка JAR: `./gradlew build`
