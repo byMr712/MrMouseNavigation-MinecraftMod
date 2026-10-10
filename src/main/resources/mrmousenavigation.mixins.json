@@ -5,7 +5,11 @@
   "compatibilityLevel": "JAVA_21",
   "client": [
     "MouseMixin",
-    "RecipeBookScreenAccessor"
+    "RecipeBookScreenAccessor",
+    "RecipeBookWidgetAccessor",
+    "RecipeBookResultsAccessor",
+    "CreativeInventoryScreenAccessor",
+    "AdvancementsScreenAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
