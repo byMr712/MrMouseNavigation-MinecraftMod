@@ -2,35 +2,39 @@ package com.mr712.mrmousenavigation.handler;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mr712.mrmousenavigation.config.MouseNavigationConfig;
+import com.mr712.mrmousenavigation.mixin.AdvancementsScreenAccessor;
+import com.mr712.mrmousenavigation.mixin.CreativeModeInventoryScreenAccessor;
+import com.mr712.mrmousenavigation.mixin.RecipeBookComponentAccessor;
+import com.mr712.mrmousenavigation.mixin.RecipeBookPageAccessor;
 import com.mr712.mrmousenavigation.mixin.RecipeBookScreenAccessor;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.advancements.AdvancementTab;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.BookEditScreen;
 import net.minecraft.client.gui.screens.inventory.BookViewScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.LecternScreen;
-import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
+import java.util.Map;
 
 public class MouseNavigationHandler {
     private static final Deque<Screen> FORWARD_STACK = new ArrayDeque<>();
     private static Screen lastClosedScreen = null;
-
-    private static boolean pressKey(Screen screen, int key) {
-        return screen.keyPressed(new KeyEvent(key, 0, 0));
-    }
-
-    private static boolean pressKey(RecipeBookComponent<?> component, int key) {
-        return component.keyPressed(new KeyEvent(key, 0, 0));
-    }
 
     public static boolean handleMouseButton(long window, int button, int action, int mods) {
         if (action != 1) { // 1 = GLFW_PRESS
@@ -50,9 +54,10 @@ public class MouseNavigationHandler {
             return false;
         }
 
-        // Middle mouse button in ChatScreen sends the message
+        // Middle mouse button in ChatScreen sends the message (Enter: scancode 40)
         if (button == InputConstants.MOUSE_BUTTON_MIDDLE && currentScreen instanceof ChatScreen && config.enableChatMiddleClickSend) {
-            if (pressKey(currentScreen, InputConstants.KEY_RETURN)) {
+            KeyEvent enterEvent = new KeyEvent(40, InputConstants.KEYCODE_RETURN, 0);
+            if (currentScreen.keyPressed(enterEvent)) {
                 playClickSound(client, config);
                 return true;
             }
@@ -67,11 +72,13 @@ public class MouseNavigationHandler {
             return false;
         }
 
-        // 1. Chat Screen Navigation
+        // 1. Chat Screen Navigation (History up: 82 / KEYCODE_UP, down: 81 / KEYCODE_DOWN)
         if (currentScreen instanceof ChatScreen) {
             if (config.enableChatHistory) {
-                int key = isBack ? InputConstants.KEY_UP : InputConstants.KEY_DOWN;
-                if (pressKey(currentScreen, key)) {
+                KeyEvent historyEvent = isBack
+                        ? new KeyEvent(82, InputConstants.KEYCODE_UP, 0)
+                        : new KeyEvent(81, InputConstants.KEYCODE_DOWN, 0);
+                if (currentScreen.keyPressed(historyEvent)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -84,11 +91,13 @@ public class MouseNavigationHandler {
             return false;
         }
 
-        // 2. Books & Lecterns
+        // 2. Books & Lecterns (PageUp: KEYCODE_PAGEUP, PageDown: KEYCODE_PAGEDOWN)
         if (currentScreen instanceof BookViewScreen || currentScreen instanceof LecternScreen || currentScreen instanceof BookEditScreen) {
             if (config.enableBooks) {
-                int key = isBack ? InputConstants.KEY_LEFT : InputConstants.KEY_RIGHT;
-                if (pressKey(currentScreen, key) || pressKey(currentScreen, isBack ? InputConstants.KEY_PAGEUP : InputConstants.KEY_PAGEDOWN)) {
+                KeyEvent pageEvent = isBack
+                        ? new KeyEvent(0, InputConstants.KEYCODE_PAGEUP, 0)
+                        : new KeyEvent(0, InputConstants.KEYCODE_PAGEDOWN, 0);
+                if (currentScreen.keyPressed(pageEvent)) {
                     playClickSound(client, config);
                     return true;
                 }
@@ -102,12 +111,21 @@ public class MouseNavigationHandler {
         }
 
         // 3. Creative Inventory Tabs
-        if (currentScreen instanceof CreativeModeInventoryScreen) {
+        if (currentScreen instanceof CreativeModeInventoryScreen creativeScreen) {
             if (config.enableCreativeTabs) {
-                int key = isBack ? InputConstants.KEY_PAGEUP : InputConstants.KEY_PAGEDOWN;
-                if (pressKey(currentScreen, key)) {
-                    playClickSound(client, config);
-                    return true;
+                List<CreativeModeTab> tabs = CreativeModeTabs.tabs();
+                if (tabs.size() > 1) {
+                    CreativeModeTab currentTab = CreativeModeInventoryScreenAccessor.mrmousenavigation$getSelectedTab();
+                    int currentIndex = tabs.indexOf(currentTab);
+                    if (currentIndex == -1) {
+                        currentIndex = 0;
+                    }
+                    int newIndex = isBack ? (currentIndex - 1 + tabs.size()) % tabs.size() : (currentIndex + 1) % tabs.size();
+                    if (newIndex != currentIndex) {
+                        ((CreativeModeInventoryScreenAccessor) creativeScreen).mrmousenavigation$selectTab(tabs.get(newIndex));
+                        playClickSound(client, config);
+                        return true;
+                    }
                 }
             }
             if (isBack && config.enableScreenBack) {
@@ -119,12 +137,24 @@ public class MouseNavigationHandler {
         }
 
         // 4. Advancements Screen
-        if (currentScreen instanceof AdvancementsScreen) {
+        if (currentScreen instanceof AdvancementsScreen advancementsScreen) {
             if (config.enableAdvancements) {
-                int key = isBack ? InputConstants.KEY_PAGEUP : InputConstants.KEY_PAGEDOWN;
-                if (pressKey(currentScreen, key) || pressKey(currentScreen, isBack ? InputConstants.KEY_LEFT : InputConstants.KEY_RIGHT)) {
-                    playClickSound(client, config);
-                    return true;
+                AdvancementsScreenAccessor accessor = (AdvancementsScreenAccessor) advancementsScreen;
+                Map<AdvancementHolder, AdvancementTab> tabsMap = accessor.mrmousenavigation$getTabs();
+                if (tabsMap != null && tabsMap.size() > 1) {
+                    List<AdvancementTab> tabs = new ArrayList<>(tabsMap.values());
+                    AdvancementTab currentTab = accessor.mrmousenavigation$getSelectedTab();
+                    int currentIndex = tabs.indexOf(currentTab);
+                    if (currentIndex == -1) {
+                        currentIndex = 0;
+                    }
+                    int newIndex = isBack ? (currentIndex - 1 + tabs.size()) % tabs.size() : (currentIndex + 1) % tabs.size();
+                    if (newIndex != currentIndex) {
+                        AdvancementTab newTab = tabs.get(newIndex);
+                        accessor.mrmousenavigation$getAdvancements().setSelectedTab(newTab.getRootAdvancement(), true);
+                        playClickSound(client, config);
+                        return true;
+                    }
                 }
             }
             if (isBack && config.enableScreenBack) {
@@ -139,10 +169,20 @@ public class MouseNavigationHandler {
         if (config.enableRecipeBook && currentScreen instanceof AbstractRecipeBookScreen<?> recipeBookScreen) {
             RecipeBookComponent<?> recipeBook = ((RecipeBookScreenAccessor) recipeBookScreen).mrmousenavigation$getRecipeBook();
             if (recipeBook != null && recipeBook.isVisible()) {
-                int key = isBack ? InputConstants.KEY_PAGEUP : InputConstants.KEY_PAGEDOWN;
-                if (pressKey(recipeBook, key)) {
-                    playClickSound(client, config);
-                    return true;
+                RecipeBookPage page = ((RecipeBookComponentAccessor) recipeBook).mrmousenavigation$getRecipeBookPage();
+                if (page != null) {
+                    RecipeBookPageAccessor pageAccessor = (RecipeBookPageAccessor) page;
+                    int totalPages = pageAccessor.mrmousenavigation$getTotalPages();
+                    if (totalPages > 1) {
+                        int currentPage = pageAccessor.mrmousenavigation$getCurrentPage();
+                        int newPage = isBack ? (currentPage - 1 + totalPages) % totalPages : (currentPage + 1) % totalPages;
+                        if (newPage != currentPage) {
+                            pageAccessor.mrmousenavigation$setCurrentPage(newPage);
+                            pageAccessor.mrmousenavigation$updateButtonsForPage();
+                            playClickSound(client, config);
+                            return true;
+                        }
+                    }
                 }
             }
         }
@@ -159,7 +199,7 @@ public class MouseNavigationHandler {
             }
         }
 
-        // 7. General Screen Back / Close (Esc)
+        // 7. General Screen Back / Close (Esc: scancode 41)
         if (isBack && config.enableScreenBack) {
             triggerBack(currentScreen);
             playClickSound(client, config);
@@ -171,7 +211,8 @@ public class MouseNavigationHandler {
 
     private static void triggerBack(Screen currentScreen) {
         recordClosedScreen(currentScreen);
-        if (!pressKey(currentScreen, InputConstants.KEY_ESCAPE)) {
+        KeyEvent escEvent = new KeyEvent(41, InputConstants.KEY_ESCAPE, 0);
+        if (!currentScreen.keyPressed(escEvent)) {
             currentScreen.onClose();
         }
     }
@@ -197,4 +238,3 @@ public class MouseNavigationHandler {
         lastClosedScreen = null;
     }
 }
-
